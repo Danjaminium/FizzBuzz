@@ -11,6 +11,11 @@ namespace FizzBuzz.Helpers
             new Condition(){Output = "Fizz", Value = 3}
         };
 
+        public void SetUpConditions(List<Condition> conditions)
+        {
+            this._conditions = conditions.OrderByDescending(c => c.Value).ToList();
+        }
+
         // Itteration 1
         public string Evaluate(int valueToCheck)
         {
