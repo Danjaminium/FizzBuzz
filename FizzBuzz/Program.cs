@@ -10,7 +10,7 @@ namespace FizzBuzz
 
             for (int i = 1; i <= 100; i++)
             {
-                Console.WriteLine(evaluator.Evaluate(i));
+                Console.WriteLine(evaluator.EvaluateWithConditions(i));
             }
 
             Console.ReadKey();

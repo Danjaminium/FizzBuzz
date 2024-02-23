@@ -1,7 +1,17 @@
-﻿namespace FizzBuzz.Helpers
+﻿using FizzBuzz.Models;
+
+namespace FizzBuzz.Helpers
 {
     public class Evaluator
     {
+        private List<Condition> _conditions = new List<Condition>()
+        {
+            new Condition(){Output = "FizzBuzz", Value = 15},
+            new Condition(){Output = "Buzz", Value = 5},
+            new Condition(){Output = "Fizz", Value = 3}
+        };
+
+        // Itteration 1
         public string Evaluate(int valueToCheck)
         {
             if (valueToCheck % 15 == 0)
@@ -20,6 +30,12 @@
             {
                 return valueToCheck.ToString();
             }
+        }
+
+        // Itteration 2
+        public string EvaluateWithConditions(int valueToCheck)
+        {
+            return this._conditions.FirstOrDefault(c => valueToCheck % c.Value == 0)?.Output ?? valueToCheck.ToString();
         }
     }
 }
