@@ -6,6 +6,12 @@ namespace FizzBuzzTest.UnitTests.Helpers
     {
         private FizzBuzz.Helpers.Evaluator _evaluator;
 
+        [SetUp]
+        public void Init()
+        {
+            _evaluator = new FizzBuzz.Helpers.Evaluator();
+        }
+
         [TestCaseSource(nameof(SetUpConditionsValidCases))]
         public void SetUpConditionsDoesntThrowErrorWithValidValues(List<Condition> conditions)
         {
@@ -16,12 +22,6 @@ namespace FizzBuzzTest.UnitTests.Helpers
         public void SetUpConditionsThrowsErrorWithInvalidValues(List<Condition> conditions)
         {
             Assert.Throws<InvalidDataException>(() => _evaluator.SetUpConditions(conditions));
-        }
-
-        [SetUp]
-        public void Init()
-        {
-            _evaluator = new FizzBuzz.Helpers.Evaluator();
         }
 
         [TestCaseSource(nameof(EvaluatorCases))]
@@ -41,7 +41,21 @@ namespace FizzBuzzTest.UnitTests.Helpers
         {
             _evaluator.SetUpConditions(customConditions);
 
+            Assert.That(_evaluator.EvaluateWithConditionsReflection(valueOutputPair.Key), Is.EqualTo(valueOutputPair.Value));
+        }
+
+        [TestCaseSource(nameof(EvaluatorCases))]
+        public void EvaluateWithConditionReturnsCorrectStringReflection(KeyValuePair<int, string> valueOutputPair)
+        {
             Assert.That(_evaluator.EvaluateWithConditions(valueOutputPair.Key), Is.EqualTo(valueOutputPair.Value));
+        }
+
+        [TestCaseSource(nameof(EvaluatorCustomCases))]
+        public void EvaluateWithCustomConditionsReturnsCorrectStringReflection(KeyValuePair<int, string> valueOutputPair)
+        {
+            _evaluator.SetUpConditions(customConditions);
+
+            Assert.That(_evaluator.EvaluateWithConditionsReflection(valueOutputPair.Key), Is.EqualTo(valueOutputPair.Value));
         }
 
         // Test Data

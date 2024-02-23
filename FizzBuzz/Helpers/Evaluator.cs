@@ -44,5 +44,14 @@ namespace FizzBuzz.Helpers
         {
             return this._conditions.FirstOrDefault(c => valueToCheck % c.Value == 0)?.Output ?? valueToCheck.ToString();
         }
+
+        // Itteration 2
+        public string EvaluateWithConditionsReflection(int valueToCheck)
+        {
+            var condition = this._conditions.FirstOrDefault(c => valueToCheck % c.Value == 0);
+
+            // Reflection was a requirement of the work
+            return condition?.GetType()?.GetProperty("Output")?.GetValue(condition)?.ToString() ?? valueToCheck.ToString();
+        }
     }
 }
