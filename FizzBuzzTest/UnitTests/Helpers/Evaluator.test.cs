@@ -1,31 +1,63 @@
-﻿namespace FizzBuzzTest.UnitTests.Helpers
+﻿using FizzBuzz.Models;
+
+namespace FizzBuzzTest.UnitTests.Helpers
 {
     internal class Evaluator
     {
-        [TestCase(4, "4")]
-        [TestCase(3, "Fizz")]
-        [TestCase(5, "Buzz")]
-        [TestCase(15, "FizzBuzz")]
-        [TestCase(6, "Fizz")]
-        [TestCase(401, "401")]
-        public void EvaluateReturnsCorrectString(int valueToCheck, string expectedReturn)
-        {
-            var evaluator = new FizzBuzz.Helpers.Evaluator();
+        private FizzBuzz.Helpers.Evaluator _evaluator;
 
-            Assert.That(evaluator.Evaluate(valueToCheck), Is.EqualTo(expectedReturn));
+        [SetUp]
+        public void Init()
+        {
+            _evaluator = new FizzBuzz.Helpers.Evaluator();
         }
 
-        [TestCase(4, "4")]
-        [TestCase(3, "Fizz")]
-        [TestCase(5, "Buzz")]
-        [TestCase(15, "FizzBuzz")]
-        [TestCase(6, "Fizz")]
-        [TestCase(401, "401")]
-        public void EvaluateWithConditionReturnsCorrectString(int valueToCheck, string expectedReturn)
+        [TestCaseSource(nameof(EvaluatorCases))]
+        public void EvaluateReturnsCorrectString(KeyValuePair<int, string> valueOutputPair)
         {
-            var evaluator = new FizzBuzz.Helpers.Evaluator();
-
-            Assert.That(evaluator.EvaluateWithConditions(valueToCheck), Is.EqualTo(expectedReturn));
+            Assert.That(_evaluator.Evaluate(valueOutputPair.Key), Is.EqualTo(valueOutputPair.Value));
         }
+
+        [TestCaseSource(nameof(EvaluatorCases))]
+        public void EvaluateWithConditionReturnsCorrectString(KeyValuePair<int, string> valueOutputPair)
+        {
+            Assert.That(_evaluator.EvaluateWithConditions(valueOutputPair.Key), Is.EqualTo(valueOutputPair.Value));
+        }
+
+        [TestCaseSource(nameof(EvaluatorCustomCases))]
+        public void EvaluateWithCustomConditionsReturnsCorrectString(KeyValuePair<int, string> valueOutputPair)
+        {
+            _evaluator.SetUpConditions(customConditions);
+
+            Assert.That(_evaluator.EvaluateWithConditions(valueOutputPair.Key), Is.EqualTo(valueOutputPair.Value));
+        }
+
+        // Test Data
+        private static object[] EvaluatorCases =
+        {
+            new KeyValuePair<int,string>(3, "Fizz"),
+            new KeyValuePair<int,string>(4, "4"),
+            new KeyValuePair<int,string>(5, "Buzz"),
+            new KeyValuePair<int,string>(6, "Fizz"),
+            new KeyValuePair<int,string>(15, "FizzBuzz"),
+            new KeyValuePair<int,string>(401, "401")
+        };
+
+        private static object[] EvaluatorCustomCases =
+        {
+            new KeyValuePair<int,string>(4, "Fizz"),
+            new KeyValuePair<int,string>(5, "5"),
+            new KeyValuePair<int,string>(7, "Buzz"),
+            new KeyValuePair<int,string>(8, "Fizz"),
+            new KeyValuePair<int,string>(28, "FizzBuzz"),
+            new KeyValuePair<int,string>(401, "401")
+        };
+
+        private List<Condition> customConditions = new List<Condition>()
+        {
+            new Condition(){Output = "Fizz", Value = 4},
+            new Condition(){Output = "Buzz", Value = 7},
+            new Condition(){Output = "FizzBuzz", Value = 28}
+        };
     }
 }
