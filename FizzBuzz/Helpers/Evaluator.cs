@@ -18,7 +18,7 @@ namespace FizzBuzz.Helpers
             this._conditions = conditions.OrderByDescending(c => c.Value).ToList();
         }
 
-        // Itteration 1
+        // Iteration 1
         public string Evaluate(int valueToCheck)
         {
             if (valueToCheck % 15 == 0)
@@ -39,13 +39,13 @@ namespace FizzBuzz.Helpers
             }
         }
 
-        // Itteration 2
+        // Iteration 2
         public string EvaluateWithConditions(int valueToCheck)
         {
             return this._conditions.FirstOrDefault(c => valueToCheck % c.Value == 0)?.Output ?? valueToCheck.ToString();
         }
 
-        // Itteration 2
+        // Iteration 2
         public string EvaluateWithConditionsReflection(int valueToCheck)
         {
             var condition = this._conditions.FirstOrDefault(c => valueToCheck % c.Value == 0);
