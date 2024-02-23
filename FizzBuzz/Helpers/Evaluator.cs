@@ -13,6 +13,8 @@ namespace FizzBuzz.Helpers
 
         public void SetUpConditions(List<Condition> conditions)
         {
+            if (conditions.Any(c => c.Value <= 0)) throw new InvalidDataException("Custom Rules must have a value greater than 0.");
+
             this._conditions = conditions.OrderByDescending(c => c.Value).ToList();
         }
 

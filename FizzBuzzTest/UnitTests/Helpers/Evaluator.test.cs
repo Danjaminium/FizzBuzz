@@ -6,6 +6,18 @@ namespace FizzBuzzTest.UnitTests.Helpers
     {
         private FizzBuzz.Helpers.Evaluator _evaluator;
 
+        [TestCaseSource(nameof(SetUpConditionsValidCases))]
+        public void SetUpConditionsDoesntThrowErrorWithValidValues(List<Condition> conditions)
+        {
+            Assert.DoesNotThrow(() => _evaluator.SetUpConditions(conditions));
+        }
+
+        [TestCaseSource(nameof(SetUpConditionsInvalidCases))]
+        public void SetUpConditionsThrowsErrorWithInvalidValues(List<Condition> conditions)
+        {
+            Assert.Throws<InvalidDataException>(() => _evaluator.SetUpConditions(conditions));
+        }
+
         [SetUp]
         public void Init()
         {
@@ -33,6 +45,48 @@ namespace FizzBuzzTest.UnitTests.Helpers
         }
 
         // Test Data
+        private static object[] SetUpConditionsValidCases =
+        {
+            new List<Condition>(),
+            new List<Condition>()
+            {
+                new Condition(){Output = "Fizz", Value = 3}
+            },
+            new List<Condition>()
+            {
+                new Condition(){Output = "Fizz", Value = 3},
+                new Condition(){Output = "Fizz", Value = 3}
+            },
+            new List<Condition>()
+            {
+                new Condition(){Output = "Fizz", Value = 3},
+                new Condition(){Output = "BuzzFizz", Value = 51},
+                new Condition(){Output = "FizzBuzz", Value = 15},
+                new Condition(){Output = "Buzz", Value = 5},
+                new Condition(){Output = "Zzif", Value = 33}
+            }
+        };
+
+        private static object[] SetUpConditionsInvalidCases =
+        {
+            new List<Condition>()
+            {
+                new Condition(){Output = "Fizz", Value = 0}
+            },
+            new List<Condition>()
+            {
+                new Condition(){Output = "Fizz", Value = -3}
+            },
+            new List<Condition>()
+            {
+                new Condition(){Output = "Fizz", Value = 3},
+                new Condition(){Output = "BuzzFizz", Value = 51},
+                new Condition(){Output = "FizzBuzz", Value = 15},
+                new Condition(){Output = "Buzz", Value = 5},
+                new Condition(){Output = "Zzif", Value = 0}
+            }
+        };
+
         private static object[] EvaluatorCases =
         {
             new KeyValuePair<int,string>(3, "Fizz"),
